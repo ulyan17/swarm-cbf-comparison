@@ -1,0 +1,5 @@
+neighbor_bin,success_rate,fraction_mean,collision_pairs,count
+<4,0.761,0.943,1.065,46
+4-6,0.368,0.853,8.316,19
+6-8,0.0,0.684,19.818,22
+>8,0.0,0.617,29.0,3

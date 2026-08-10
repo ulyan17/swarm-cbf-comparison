@@ -1,0 +1,10 @@
+N,controller,collision,deadlock,timeout_other
+5,CBF,0,0,4
+5,Crystal,0,0,17
+5,GCBF+,0,0,5
+10,CBF,1,0,7
+10,Crystal,8,1,21
+10,GCBF+,0,0,13
+20,CBF,5,0,8
+20,Crystal,30,0,0
+20,GCBF+,8,0,22

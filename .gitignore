@@ -6,7 +6,7 @@ training_data.npz
 gcbf_model.pt
 comparison_results.csv
 experiments/
-results/
-*.png
-*.csv
-*.tex
+# results/
+# *.png
+# *.csv
+# *.tex

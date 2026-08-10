@@ -1,0 +1,4 @@
+controller,success_mean,fraction_mean,steps_mean,coll_pairs_mean,coll_time_mean,min_dist_mean,accel_mean,time_mean,remaining_dist_mean,end_speed_mean
+CBF,0.567,0.963,453.867,7.5,166.933,0.505,0.05,81.657,0.19,0.077
+Crystal,0.0,0.208,600.0,33.333,485.367,0.373,0.5,1.621,0.595,0.243
+GCBF+,0.0,0.69,600.0,20.833,231.033,0.511,0.102,5.415,0.436,0.095
