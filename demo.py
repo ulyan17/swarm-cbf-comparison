@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 import argparse
+import os
 from src.config import SimConfig, CBFConfig, CrystalConfig, GNNConfig
 from src.environment import Environment
 from src.controllers.cbf import CBFController
@@ -10,7 +11,8 @@ from src.controllers.crystal import CrystalController
 from src.controllers.gcbf import GCBFController
 
 def run_demo(controller_name: str = 'CBF', num_agents: int = 5,
-             num_obstacles: int = 2, max_steps: int = 500, seed: int = 42):
+             num_obstacles: int = 2, max_steps: int = 500, seed: int = 42,
+             model_path: str = 'gcbf_model.pt'):
     sim_cfg = SimConfig()
     env = Environment(sim_cfg)
 
@@ -30,11 +32,17 @@ def run_demo(controller_name: str = 'CBF', num_agents: int = 5,
     elif controller_name == 'Crystal':
         ctrl = CrystalController(CrystalConfig(), sim_cfg)
     elif controller_name == 'GCBF+':
-        try:
-            ctrl = GCBFController(GNNConfig(), sim_cfg, model_path='gcbf_model.pt')
-        except FileNotFoundError:
-            print("Модель gcbf_model.pt не найдена. Сначала запустите train_gcbf.py")
-            return
+        gnn_cfg = GNNConfig()
+        gnn_cfg.hidden_dim = 128   # обязательно!
+        # Загружаем статистики нормализации, если есть датасет
+        stats_path = os.path.join('experiments', '50k', 'training_data.npz')
+        if os.path.exists(stats_path):
+            data_norm = np.load(stats_path, allow_pickle=True)
+            gnn_cfg.norm_mean = data_norm['norm_mean'].tolist()
+            gnn_cfg.norm_std  = data_norm['norm_std'].tolist()
+            gnn_cfg.edge_mean = data_norm['edge_mean'].tolist()
+            gnn_cfg.edge_std  = data_norm['edge_std'].tolist()
+        ctrl = GCBFController(gnn_cfg, sim_cfg, model_path=model_path)
     else:
         raise ValueError("Выберите 'CBF', 'Crystal' или 'GCBF+'")
 
@@ -86,5 +94,6 @@ if __name__ == '__main__':
     parser.add_argument('--agents', type=int, default=5)
     parser.add_argument('--obstacles', type=int, default=2)
     parser.add_argument('--seed', type=int, default=42)
+    parser.add_argument('--model_path', default='gcbf_model.pt')
     args = parser.parse_args()
-    run_demo(args.controller, args.agents, args.obstacles, seed=args.seed)
+    run_demo(args.controller, args.agents, args.obstacles, seed=args.seed, model_path=args.model_path)
