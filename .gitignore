@@ -1,0 +1,12 @@
+﻿venv/
+__pycache__/
+*.pyc
+*.pyo
+training_data.npz
+gcbf_model.pt
+comparison_results.csv
+experiments/
+results/
+*.png
+*.csv
+*.tex
